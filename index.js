@@ -41,10 +41,10 @@ async function run() {
     })
 
     // get data by email
-    app.get("/myJobs/:email" , async (req,res) =>{
+    app.get("/myJobs/:email" , async(req,res) =>{
         console.log(req.params.email)
-        const result = await jobCollection.findOne({postedBy: req.params.email})
-        console.log(result)
+        const result = await jobCollection.find({ postedBy: req.params.email }).toArray()
+        // console.log(result)
         res.send(result)
     })
 
