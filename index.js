@@ -40,6 +40,14 @@ async function run() {
         res.send(jobs);
     })
 
+    // get data by email
+    app.get("/myJobs/:email" , async (req,res) =>{
+        console.log(req.params.email)
+        const result = await jobCollection.findOne({postedBy: req.params.email})
+        console.log(result)
+        res.send(result)
+    })
+
     // post a job
     app.post("/post-job" , async(req,res) =>{
         const body = req.body;
