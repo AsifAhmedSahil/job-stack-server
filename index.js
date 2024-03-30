@@ -30,7 +30,31 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    
+
+
+    const jobCollection = client.db("jobStack").collection("jobs")
+
+    // get all jobs
+    app.get("/all-jobs" , async (req,res) =>{
+        const jobs = await jobCollection.find().toArray()
+        res.send(jobs);
+    })
+
+    // post a job
+    app.post("/post-job" , async(req,res) =>{
+        const body = req.body;
+        body.createAt = new Date()
+        const result= await jobCollection.insertOne(body);
+        if(result.insertedId){
+            return res.status(200).send(result)
+        }
+        else{
+            return res.status(404).send({ message: "try again!"})
+        }
+    })
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
