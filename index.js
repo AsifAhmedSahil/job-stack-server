@@ -41,6 +41,16 @@ async function run() {
         res.send(jobs);
     })
 
+    // get a single job
+
+    app.get("/all-jobs/:id" , async(req,res) =>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const job = await jobCollection.find(query).toArray()
+      console.log(job)
+      res.send(job);
+    })
+
     // get all salary
     app.get("/salary" , async(req,res) =>{
       const salary = await salaryCollection.find().toArray()
