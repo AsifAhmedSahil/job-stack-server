@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors')
 const port = 3000 || process.env.PORT
 require('dotenv').config()
@@ -59,6 +59,14 @@ async function run() {
         else{
             return res.status(404).send({ message: "try again!"})
         }
+    })
+
+    // delete a job
+    app.delete('/job/:id' ,async(req,res) =>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await jobCollection.deleteOne(query)
+      res.send(result)
     })
 
 
