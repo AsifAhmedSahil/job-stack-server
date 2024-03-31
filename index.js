@@ -33,11 +33,18 @@ async function run() {
 
 
     const jobCollection = client.db("jobStack").collection("jobs")
+    const salaryCollection = client.db("jobStack").collection("salary")
 
     // get all jobs
     app.get("/all-jobs" , async (req,res) =>{
         const jobs = await jobCollection.find().toArray()
         res.send(jobs);
+    })
+
+    // get all salary
+    app.get("/salary" , async(req,res) =>{
+      const salary = await salaryCollection.find().toArray()
+      res.send(salary);
     })
 
     // get data by email
