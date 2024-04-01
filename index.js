@@ -51,6 +51,8 @@ async function run() {
       res.send(job);
     })
 
+
+
     // get all salary
     app.get("/salary" , async(req,res) =>{
       const salary = await salaryCollection.find().toArray()
@@ -84,6 +86,27 @@ async function run() {
       const query = {_id: new ObjectId(id)}
       const result = await jobCollection.deleteOne(query)
       res.send(result)
+    })
+
+    // update a job
+
+    app.patch('/update-job/:id' , async(req,res) =>{
+      const id = req.params.id;
+      console.log("inside id",id)
+      const jobData = req.body;
+      const filter = {_id: new ObjectId(id)}
+      const options = { upsert: true };
+
+      const updateDoc = {
+        $set: {
+          ...jobData
+        },
+      };
+
+      const result = await jobCollection.updateOne(filter,updateDoc,options);
+      console.log(result)
+      res.send(result)
+      
     })
 
 
