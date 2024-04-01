@@ -37,7 +37,7 @@ async function run() {
 
     // get all jobs
     app.get("/all-jobs" , async (req,res) =>{
-        const jobs = await jobCollection.find().toArray()
+        const jobs = await jobCollection.find({}).toArray()
         res.send(jobs);
     })
 
